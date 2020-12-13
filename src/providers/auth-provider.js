@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import {
   msalApp,
-  msalAppSignUp,
-  msalAppPasswordReset,
   requiresInteraction,
   isIE,
   AUTH_REQUESTS,
   AUTH_SCOPES,
 } from '../utils/auth-utils';
-import { AuthContext } from '../utils/auth-context';
+import { AuthContext } from '../context/auth-context';
 
 // If you support IE, our recommendation is that you sign-in using Redirect APIs
 const useRedirectFlow = isIE();
@@ -55,7 +53,7 @@ export default (C) =>
 
     async onSignIn(redirect, redirectUrl) {
       if (redirectUrl !== undefined) {
-        msalToUse.config.auth.redirectUri = msalToUse.config.auth.redirectUri + redirectUrl;
+        msalApp.config.auth.redirectUri = msalApp.config.auth.redirectUri + redirectUrl;
       }
       if (redirect) {
         return msalApp.loginRedirect({
