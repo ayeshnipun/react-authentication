@@ -51,13 +51,10 @@ export default (C) =>
         });
     }
 
-    async onSignIn(redirect, redirectUrl) {
-      if (redirectUrl !== undefined) {
-        msalApp.config.auth.redirectUri = msalApp.config.auth.redirectUri + redirectUrl;
-      }
+    async onSignIn(redirect) {
       if (redirect) {
         return msalApp.loginRedirect({
-          scopes: [AUTH_SCOPES.OPENID, AUTH_SCOPES.PROFILE, AUTH_SCOPES.PATIENT_API],
+          scopes: [AUTH_SCOPES.OPENID, AUTH_SCOPES.PROFILE],
           extraQueryParameters: {
             ui_locales: localStorage.getItem('language') ?? 'sv',
           },
@@ -65,7 +62,7 @@ export default (C) =>
       }
 
       const loginResponse = await msalApp.loginRedirect({
-        scopes: [AUTH_SCOPES.OPENID, AUTH_SCOPES.PROFILE, AUTH_SCOPES.PATIENT_API],
+        scopes: [AUTH_SCOPES.OPENID, AUTH_SCOPES.PROFILE],
         extraQueryParameters: {
           ui_locales: localStorage.getItem('language') ?? 'sv',
         },
@@ -138,7 +135,7 @@ export default (C) =>
         CheckIsAuthenticated: () => this.CheckIsAuthenticated(),
         account: this.state.account,
         error: this.state.error,
-        onSignIn: (redirectUrl) => this.onSignIn(useRedirectFlow, redirectUrl),
+        onSignIn: () => this.onSignIn(useRedirectFlow),
         onSignOut: () => this.onSignOut(),
       };
 
